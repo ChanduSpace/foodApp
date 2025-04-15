@@ -10,3 +10,27 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+food-delivery-app/
+├── public/
+│ └── vite.svg
+├── src/
+│ ├── assets/ # Static files (images, etc.)
+│ ├── components/ # Reusable components (e.g., Header, Footer, Auth, etc.)
+│ │ └── Auth.jsx
+│ ├── firebase/ # Firebase config and setup
+│ │ └── firebaseConfig.js
+│ ├── pages/ # Main page components (routed views)
+│ │ ├── Home.jsx
+│ │ ├── Login.jsx
+│ │ └── Signup.jsx
+│ ├── styles/ # Plain CSS files
+│ │ └── app.css
+│ ├── App.jsx # Root component with routes
+│ ├── main.jsx # App entry point
+│ └── index.css # Optional global styles
+├── index.html
+├── package.json
+├── vite.config.js
+├── .gitignore
+└── README.md
