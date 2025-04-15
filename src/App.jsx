@@ -1,8 +1,11 @@
-import "./styles/app.css";
+import Auth from "./components/Auth";
 
 function App() {
   return (
-    <div className="app-container">Welcome to the Food Delivery App 🍔</div>
+    <div>
+      <h1 style={{ textAlign: "center" }}>🍔 Food Delivery App</h1>
+      <Auth />
+    </div>
   );
 }
 
