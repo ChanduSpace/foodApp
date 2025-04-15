@@ -1,10 +1,8 @@
-import "./App.css";
+import "./styles/app.css";
 
 function App() {
   return (
-    <div>
-      <h1>hello</h1>
-    </div>
+    <div className="app-container">Welcome to the Food Delivery App 🍔</div>
   );
 }
 
