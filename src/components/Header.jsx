@@ -1,39 +1,46 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { auth } from "../firebase/firebaseConfig";
+import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import { clearUser } from "../redux/userSlice";
 
 function Header() {
-  const cartItems = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
+    try {
+      await signOut(auth);
+      dispatch(clearUser());
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
   };
 
   return (
     <header style={styles.header}>
-      <h1 style={styles.logo}>🍔 Foodie</h1>
+      <Link to="/" style={styles.logo}>
+        FoodDelivery
+      </Link>
       <nav style={styles.nav}>
         <Link to="/" style={styles.link}>
           Home
         </Link>
-        <Link to="/cart" style={styles.link}>
-          Cart ({cartItems.length})
-        </Link>
-        {user ? (
-          <>
-            <span style={styles.email}>{user.email}</span>
-            <button onClick={handleLogout} style={styles.button}>
-              Logout
-            </button>
-          </>
-        ) : (
+        {user && (
+          <Link to="/cart" style={styles.link}>
+            Cart
+          </Link>
+        )}
+        {!user ? (
           <Link to="/login" style={styles.link}>
             Login
           </Link>
+        ) : (
+          <button onClick={handleLogout} style={styles.logoutBtn}>
+            Logout
+          </button>
         )}
       </nav>
     </header>
@@ -42,16 +49,18 @@ function Header() {
 
 const styles = {
   header: {
-    backgroundColor: "#000",
-    color: "#fff",
     padding: "1rem 2rem",
+    backgroundColor: "#f8f8f8",
+    borderBottom: "1px solid #ddd",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
   logo: {
-    margin: 0,
     fontSize: "1.5rem",
+    fontWeight: "bold",
+    color: "#333",
+    textDecoration: "none",
   },
   nav: {
     display: "flex",
@@ -59,21 +68,17 @@ const styles = {
     alignItems: "center",
   },
   link: {
-    color: "#fff",
     textDecoration: "none",
-    fontSize: "1rem",
+    color: "#007bff",
+    fontWeight: "500",
   },
-  button: {
-    background: "#dc3545",
-    border: "none",
-    padding: "6px 10px",
+  logoutBtn: {
+    background: "#ff4d4f",
     color: "#fff",
-    cursor: "pointer",
+    border: "none",
+    padding: "6px 12px",
     borderRadius: "4px",
-  },
-  email: {
-    fontSize: "0.9rem",
-    color: "#ccc",
+    cursor: "pointer",
   },
 };
 

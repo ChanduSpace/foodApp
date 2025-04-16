@@ -5,37 +5,38 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const handleRemove = (id) => {
-    dispatch(removeFromCart(id));
-  };
-
-  const handleClear = () => {
-    dispatch(clearCart());
-  };
+  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ textAlign: "center" }}>🛒 Your Cart</h2>
+    <div style={styles.container}>
+      <h2 style={styles.title}>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <p style={{ textAlign: "center" }}>Your cart is empty.</p>
+        <p style={styles.empty}>Your cart is empty.</p>
       ) : (
         <>
-          <div style={styles.cartList}>
+          <ul style={styles.list}>
             {cartItems.map((item) => (
-              <div key={item.id} style={styles.card}>
-                <h4>{item.name}</h4>
-                <p>{item.price}</p>
+              <li key={item.id} style={styles.item}>
+                <div>
+                  <h4 style={styles.name}>{item.name}</h4>
+                  <p style={styles.price}>₹{item.price}</p>
+                </div>
                 <button
-                  onClick={() => handleRemove(item.id)}
+                  onClick={() => dispatch(removeFromCart(item.id))}
                   style={styles.removeBtn}
                 >
                   Remove
                 </button>
-              </div>
+              </li>
             ))}
-          </div>
-          <div style={styles.footer}>
-            <button onClick={handleClear} style={styles.clearBtn}>
+          </ul>
+          <hr />
+          <div style={styles.totalSection}>
+            <h3>Total: ₹{total}</h3>
+            <button
+              onClick={() => dispatch(clearCart())}
+              style={styles.clearBtn}
+            >
               Clear Cart
             </button>
           </div>
@@ -46,41 +47,62 @@ function Cart() {
 }
 
 const styles = {
-  cartList: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "1.5rem",
-    justifyContent: "center",
-    marginTop: "2rem",
-  },
-  card: {
-    border: "1px solid #ddd",
+  container: {
+    maxWidth: "700px",
+    margin: "2rem auto",
     padding: "1rem",
-    width: "200px",
-    borderRadius: "6px",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    backgroundColor: "#fff",
+  },
+  title: {
     textAlign: "center",
-    backgroundColor: "#f9f9f9",
+    fontSize: "1.8rem",
+    marginBottom: "1rem",
+  },
+  empty: {
+    textAlign: "center",
+    fontSize: "1rem",
+    color: "#666",
+  },
+  list: {
+    listStyle: "none",
+    padding: 0,
+  },
+  item: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0.5rem 0",
+    borderBottom: "1px solid #eee",
+  },
+  name: {
+    margin: "0 0 4px",
+  },
+  price: {
+    margin: 0,
+    color: "#888",
   },
   removeBtn: {
-    marginTop: "0.5rem",
-    padding: "6px 12px",
-    backgroundColor: "#dc3545",
-    border: "none",
+    background: "#ff4d4f",
     color: "#fff",
-    borderRadius: "4px",
+    border: "none",
+    padding: "6px 12px",
     cursor: "pointer",
+    borderRadius: "4px",
+  },
+  totalSection: {
+    textAlign: "right",
+    marginTop: "1rem",
   },
   clearBtn: {
-    padding: "10px 20px",
-    backgroundColor: "#000",
+    marginTop: "0.5rem",
+    background: "#333",
     color: "#fff",
+    padding: "6px 12px",
     border: "none",
-    borderRadius: "6px",
+    borderRadius: "4px",
     cursor: "pointer",
-    marginTop: "2rem",
-  },
-  footer: {
-    textAlign: "center",
   },
 };
 
