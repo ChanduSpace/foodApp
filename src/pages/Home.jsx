@@ -29,6 +29,7 @@ function Home() {
         {dummyRestaurants.map((res) => (
           <RestaurantCard
             key={res.id}
+            id={res.id}
             name={res.name}
             cuisine={res.cuisine}
             image={res.image}
