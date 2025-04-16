@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 const dummyMenu = {
   1: [
@@ -17,7 +19,12 @@ const dummyMenu = {
 
 function Menu() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const items = dummyMenu[id] || [];
+
+  const handleAdd = (item) => {
+    dispatch(addToCart(item));
+  };
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -28,6 +35,9 @@ function Menu() {
             <div key={item.id} style={styles.item}>
               <h4>{item.name}</h4>
               <p>{item.price}</p>
+              <button onClick={() => handleAdd(item)} style={styles.button}>
+                Add to Cart
+              </button>
             </div>
           ))
         ) : (
@@ -53,6 +63,15 @@ const styles = {
     borderRadius: "6px",
     textAlign: "center",
     backgroundColor: "#fff",
+  },
+  button: {
+    marginTop: "0.5rem",
+    padding: "6px 12px",
+    backgroundColor: "#007bff",
+    border: "none",
+    color: "#fff",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
 };
 
