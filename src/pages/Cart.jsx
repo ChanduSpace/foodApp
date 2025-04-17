@@ -1,105 +1,94 @@
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, clearCart } from "../redux/cartSlice";
+import { db } from "../firebase/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 function Cart() {
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.items);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const placeOrder = async () => {
+    const order = {
+      userId: user.uid,
+      restaurantName: "Spicy Villa", // You can make this dynamic
+      total: totalPrice,
+      date: new Date().toLocaleString(),
+    };
+
+    try {
+      await addDoc(collection(db, "orders"), order);
+      alert("Order placed!");
+      dispatch(clearCart());
+    } catch (error) {
+      console.error("Order failed:", error.message);
+    }
+  };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Your Cart</h2>
+    <div style={{ padding: "2rem" }}>
+      <h2>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <p style={styles.empty}>Your cart is empty.</p>
+        <p>Your cart is empty</p>
       ) : (
-        <>
-          <ul style={styles.list}>
-            {cartItems.map((item) => (
-              <li key={item.id} style={styles.item}>
-                <div>
-                  <h4 style={styles.name}>{item.name}</h4>
-                  <p style={styles.price}>₹{item.price}</p>
-                </div>
-                <button
-                  onClick={() => dispatch(removeFromCart(item.id))}
-                  style={styles.removeBtn}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
-          <hr />
-          <div style={styles.totalSection}>
-            <h3>Total: ₹{total}</h3>
-            <button
-              onClick={() => dispatch(clearCart())}
-              style={styles.clearBtn}
-            >
-              Clear Cart
-            </button>
-          </div>
-        </>
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {cartItems.map((item) => (
+            <li key={item.id} style={styles.item}>
+              <span>{item.name}</span>
+              <span>
+                ₹{item.price} × {item.quantity}
+              </span>
+              <button
+                onClick={() => handleRemove(item.id)}
+                style={styles.removeBtn}
+              >
+                Remove
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <h3>Total: ₹{totalPrice}</h3>
+      {user && cartItems.length > 0 && (
+        <button onClick={placeOrder} style={styles.orderBtn}>
+          Place Order
+        </button>
       )}
     </div>
   );
 }
 
 const styles = {
-  container: {
-    maxWidth: "700px",
-    margin: "2rem auto",
-    padding: "1rem",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: "1.8rem",
-    marginBottom: "1rem",
-  },
-  empty: {
-    textAlign: "center",
-    fontSize: "1rem",
-    color: "#666",
-  },
-  list: {
-    listStyle: "none",
-    padding: 0,
-  },
   item: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0.5rem 0",
-    borderBottom: "1px solid #eee",
-  },
-  name: {
-    margin: "0 0 4px",
-  },
-  price: {
-    margin: 0,
-    color: "#888",
+    marginBottom: "1rem",
+    borderBottom: "1px solid #ccc",
+    paddingBottom: "0.5rem",
   },
   removeBtn: {
-    background: "#ff4d4f",
+    backgroundColor: "#dc3545",
     color: "#fff",
     border: "none",
-    padding: "6px 12px",
-    cursor: "pointer",
+    padding: "5px 10px",
     borderRadius: "4px",
+    cursor: "pointer",
   },
-  totalSection: {
-    textAlign: "right",
+  orderBtn: {
     marginTop: "1rem",
-  },
-  clearBtn: {
-    marginTop: "0.5rem",
-    background: "#333",
+    padding: "8px 16px",
+    backgroundColor: "#28a745",
     color: "#fff",
-    padding: "6px 12px",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",

@@ -33,6 +33,11 @@ function Header() {
             Cart
           </Link>
         )}
+        {user && (
+          <Link to="/orders" style={styles.link}>
+            Orders
+          </Link>
+        )}
         {!user ? (
           <Link to="/login" style={styles.link}>
             Login
