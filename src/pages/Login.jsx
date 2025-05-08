@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,17 +14,40 @@ function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
+      let userCredential;
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
       }
+      dispatch(
+        setUser({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+        })
+      );
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+        })
+      );
       navigate("/");
     } catch (err) {
       setError(err.message);

@@ -70,7 +70,6 @@ function Cart() {
 const styles = {
   item: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "1rem",
     borderBottom: "1px solid #ccc",
@@ -91,6 +90,16 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: "4px",
+    cursor: "pointer",
+  },
+  orderBtn: {
+    marginTop: "1rem",
+    backgroundColor: "#28a745",
+    color: "#fff",
+    padding: "0.75rem",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "6px",
     cursor: "pointer",
   },
 };

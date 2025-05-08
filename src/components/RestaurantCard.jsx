@@ -1,17 +1,10 @@
-import { Link } from "react-router-dom";
-
-function RestaurantCard({ name, cuisine, image, id }) {
+function RestaurantCard({ name, cuisine, image }) {
   return (
-    <Link
-      to={`/restaurant/${id}`}
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <div style={styles.card}>
-        <img src={image} alt={name} style={styles.image} />
-        <h3>{name}</h3>
-        <p>{cuisine}</p>
-      </div>
-    </Link>
+    <div style={styles.card}>
+      <img src={image} alt={name} style={styles.image} />
+      <h3>{name}</h3>
+      <p>{cuisine}</p>
+    </div>
   );
 }
 

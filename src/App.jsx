@@ -7,6 +7,8 @@ import Cart from "./pages/Cart";
 import Menu from "./pages/Menu";
 import Orders from "./pages/Orders";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OrderSuccess from "./pages/OrderSuccess";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (

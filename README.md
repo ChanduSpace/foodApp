@@ -34,3 +34,28 @@ food-delivery-app/
 ├── vite.config.js
 ├── .gitignore
 └── README.md
+
+
+
+
+
+src/
+├── App.jsx
+├── main.jsx
+├── firebase/
+│   └── firebaseConfig.js
+├── redux/
+│   ├── cartSlice.js
+│   └── store.js
+├── components/
+│   ├── Header.jsx
+│   └── ProtectedRoute.jsx
+├── pages/
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   ├── Cart.jsx
+│   ├── Menu.jsx
+│   ├── Orders.jsx
+│   └── NotFound.jsx
+└── index.css

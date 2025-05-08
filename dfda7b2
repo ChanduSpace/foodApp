@@ -1,0 +1,17 @@
+[33mb2946b1[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add Register page with Firebase sign-up
+[33m1bb3ad4[m Add logout functionality and show login/logout conditionally in header
+[33mdfda7b2[m Store cart data in Firestore under user ID
+[33m413129d[m Add Login Page and integrate Firebase Email/Password authentication
+[33m9b08efe[m Add Header NavBar with links and cart item count
+[33med89e4e[m Add Cart Page to view and remove items from cart
+[33m623af4c[m Setup Redux store and implement basic cart functionality
+[33m095f116[m Add Menu Page UI with static dummy menu items and route setup
+[33mef370ab[m Add Restaurant List UI using static dummy data
+[33mc8fa5f3[m Implement Signup and Login forms with Firebase Email/Password authentication
+[33m7cd9eba[m Add Header component with navigation links using React Router
+[33m666a83f[m Add React Router and create Home, Login, and Signup pages
+[33mf19755e[m Implement Firebase Authentication with Email/Password and Google login
+[33m0f5898b[m Add Firebase SDK and initialize Firebase configuration
+[33md5a9644[m Initialize Vite + React project with plain CSS setup
+[33mbe7ae47[m adding all
+[33m4e8aca9[m first commit
